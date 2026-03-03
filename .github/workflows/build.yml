@@ -1,0 +1,61 @@
+name: Build Matter Relay4 nRF52840
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/nrfconnect/sdk-nrf-toolchain:v3.1.1
+
+    defaults:
+      run:
+        shell: bash  # BASH_ENV=/opt/non-interactive-setup.sh adds toolchain (west) to PATH
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+        with:
+          path: project
+
+      - name: Cache NCS west modules
+        uses: actions/cache@v4
+        with:
+          path: /workdir/ncs
+          key: ncs-v3.1.1-${{ runner.os }}
+          restore-keys: |
+            ncs-v3.1.1-
+
+      - name: Initialize NCS workspace
+        run: |
+          if [ ! -d "/workdir/ncs/.west" ]; then
+            west init -m https://github.com/nrfconnect/sdk-nrf --mr v3.1.1 /workdir/ncs
+            cd /workdir/ncs && west update --narrow -o=--depth=1
+            west zephyr-export
+          else
+            echo "NCS already cached, skipping west init/update"
+          fi
+
+      - name: Build for nRF52840DK
+        run: |
+          cd /workdir/ncs
+          west build \
+            -b nrf52840dk/nrf52840 \
+            "$(pwd)/../../../__w/matter-relay4-nrf52840/matter-relay4-nrf52840/project" \
+            --sysbuild \
+            -d /workdir/build
+
+      - name: Upload firmware artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: matter-relay4-nrf52840-firmware
+          path: |
+            /workdir/build/zephyr/zephyr.hex
+            /workdir/build/zephyr/zephyr.elf
+            /workdir/build/merged.hex
+          retention-days: 30

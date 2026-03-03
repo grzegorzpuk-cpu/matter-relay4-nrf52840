@@ -1,0 +1,18 @@
+# Zephyr/NCS build directory
+build/
+twister-out/
+
+# IDE files
+.vscode/settings.json
+*.code-workspace
+
+# West workspace
+.west/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db

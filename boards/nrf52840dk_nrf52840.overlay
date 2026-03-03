@@ -1,0 +1,34 @@
+/*
+ * Overlay DTS dla nRF52840DK - projekt relay4
+ * 4 przekaźniki na GPIO P0.03 - P0.06, ACTIVE_LOW
+ * (logiczne 1 = przekaźnik ON = pin LOW = cewka zasilona)
+ */
+
+/ {
+	relay-gpios {
+		compatible = "gpio-leds";
+		relay0: relay_0 {
+			gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
+			label = "Relay 1";
+		};
+		relay1: relay_1 {
+			gpios = <&gpio0 4 GPIO_ACTIVE_LOW>;
+			label = "Relay 2";
+		};
+		relay2: relay_2 {
+			gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
+			label = "Relay 3";
+		};
+		relay3: relay_3 {
+			gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
+			label = "Relay 4";
+		};
+	};
+
+	aliases {
+		relay-0 = &relay0;
+		relay-1 = &relay1;
+		relay-2 = &relay2;
+		relay-3 = &relay3;
+	};
+};

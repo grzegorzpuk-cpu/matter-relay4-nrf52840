@@ -1,0 +1,14 @@
+# Partition layout for Pro Micro nRF52840 (1MB internal flash, no MCUboot)
+# App gets maximum flash space since Matter firmware is very large
+app:
+  address: 0x0
+  size: 0xf5000
+  region: flash_primary
+factory_data:
+  address: 0xf5000
+  size: 0x1000
+  region: flash_primary
+settings_storage:
+  address: 0xf6000
+  size: 0xa000
+  region: flash_primary
