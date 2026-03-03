@@ -1,9 +1,9 @@
 #
-# Copyright (c) 2022 Nordic Semiconductor
+# Copyright (c) 2024 Nordic Semiconductor
 #
 # SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
 #
-mainmenu "Matter nRF Connect Light Bulb Example Application"
+mainmenu "Matter nRF Connect Relay4 Example Application"
 
 # Sample configuration used for Thread networking
 if OPENTHREAD
@@ -22,4 +22,3 @@ source "${ZEPHYR_CONNECTEDHOMEIP_MODULE_DIR}/config/nrfconnect/chip-module/Kconf
 source "${ZEPHYR_CONNECTEDHOMEIP_MODULE_DIR}/config/nrfconnect/chip-module/Kconfig.defaults"
 source "${ZEPHYR_NRF_MODULE_DIR}/samples/matter/common/src/Kconfig"
 source "Kconfig.zephyr"
-rsource "src/aws_iot_integration/Kconfig"
